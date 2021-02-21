@@ -17,14 +17,14 @@
 package com.example.android.teatime;
 
 
-import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
-import android.support.test.rule.ActivityTestRule;
-import android.support.test.runner.AndroidJUnit4;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -47,8 +47,8 @@ public class OrderActivityBasicTest {
      */
 
     @Rule
-    public ActivityTestRule<OrderActivity> mActivityTestRule =
-            new ActivityTestRule<>(OrderActivity.class);
+    public ActivityScenarioRule<OrderActivity> mActivityTestRule =
+            new ActivityScenarioRule<>(OrderActivity.class);
 
     @Test
     public void clickDecrementButton_ChangesQuantityAndCost() {

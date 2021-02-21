@@ -24,8 +24,8 @@ package com.example.android.teatime.model;
 
 public class Tea {
 
-    private String mTeaName;
-    private int mImageResourceId;
+    private final String mTeaName;
+    private final int mImageResourceId;
 
     public Tea(String teaName, int imageResourceId) {
         mTeaName = teaName;

@@ -18,9 +18,10 @@ package com.example.android.teatime;
 
 import android.content.Context;
 import android.os.Handler;
-import android.support.annotation.Nullable;
-import android.support.test.espresso.IdlingResource;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.test.espresso.IdlingResource;
 
 import com.example.android.teatime.IdlingResource.SimpleIdlingResource;
 import com.example.android.teatime.model.Tea;
@@ -93,14 +94,11 @@ class ImageDownloader {
          * set the idle state to true.
          */
         Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (callback != null) {
-                    callback.onDone(mTeas);
-                    if (idlingResource != null) {
-                        idlingResource.setIdleState(true);
-                    }
+        handler.postDelayed(() -> {
+            if (callback != null) {
+                callback.onDone(mTeas);
+                if (idlingResource != null) {
+                    idlingResource.setIdleState(true);
                 }
             }
         }, DELAY_MILLIS);

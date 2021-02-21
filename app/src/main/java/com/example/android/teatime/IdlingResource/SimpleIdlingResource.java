@@ -16,8 +16,8 @@
 
 package com.example.android.teatime.IdlingResource;
 
-import android.support.annotation.Nullable;
-import android.support.test.espresso.IdlingResource;
+import androidx.annotation.Nullable;
+import androidx.test.espresso.IdlingResource;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -33,7 +33,7 @@ public class SimpleIdlingResource implements IdlingResource {
     @Nullable private volatile ResourceCallback mCallback;
 
     // Idleness is controlled with this boolean.
-    private AtomicBoolean mIsIdleNow = new AtomicBoolean(true);
+    private final AtomicBoolean mIsIdleNow = new AtomicBoolean(true);
 
     @Override
     public String getName() {
@@ -56,7 +56,7 @@ public class SimpleIdlingResource implements IdlingResource {
      */
     public void setIdleState(boolean isIdleNow) {
         mIsIdleNow.set(isIdleNow);
-        if (isIdleNow && mCallback != null) {
+        if (isIdleNow && (mCallback != null)) {
             mCallback.onTransitionToIdle();
         }
     }

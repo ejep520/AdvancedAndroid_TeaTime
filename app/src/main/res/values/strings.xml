@@ -24,6 +24,10 @@
     <string name="honey_lemon_tea_name">Honey Lemon Tea</string>
     <string name="chamomile_tea_name">Chamomile Tea</string>
 
+    <!--Button text -->
+    <string name="increment_button">+</string>
+    <string name="decrement_button">-</string>
+
 
     <!--OrderActivity Form values-->
     <string name="Customizations">Customizations</string>
