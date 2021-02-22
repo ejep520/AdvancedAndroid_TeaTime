@@ -16,6 +16,9 @@
 
 package com.example.android.teatime.model;
 
+import androidx.annotation.DrawableRes;
+
+import org.jetbrains.annotations.Contract;
 
 /**
  * {@link Tea} represents a tea that the user can select from the menu.
@@ -24,10 +27,12 @@ package com.example.android.teatime.model;
 
 public class Tea {
 
-    private String mTeaName;
-    private int mImageResourceId;
+    private final String mTeaName;
+    @DrawableRes
+    private final int mImageResourceId;
 
-    public Tea(String teaName, int imageResourceId) {
+    @Contract(pure=true)
+    public Tea(String teaName, @DrawableRes int imageResourceId) {
         mTeaName = teaName;
         mImageResourceId = imageResourceId;
     }
@@ -41,4 +46,3 @@ public class Tea {
     }
 
 }
-

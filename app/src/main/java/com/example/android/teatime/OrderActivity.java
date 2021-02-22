@@ -18,18 +18,18 @@ package com.example.android.teatime;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Spinner;
-import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.android.teatime.databinding.ActivityOrderBinding;
 
 import java.text.NumberFormat;
+import java.util.Locale;
 
 public class OrderActivity extends AppCompatActivity {
-
 
     private int mQuantity = 0;
     private int mTotalPrice = 0;
@@ -42,11 +42,8 @@ public class OrderActivity extends AppCompatActivity {
     private static final String TEA_SIZE_MEDIUM = "Medium ($6/cup)";
     private static final String TEA_SIZE_LARGE = "Large ($7/cup)";
 
-    private String mMilkType;
-    private String mSugarType;
+    private String mMilkType, mSugarType, mSize;
     private String mTeaName = "";
-
-    private String mSize;
 
     public final static String EXTRA_TOTAL_PRICE = "com.example.android.teatime.EXTRA_TOTAL_PRICE";
     public final static String EXTRA_TEA_NAME = "com.example.android.teatime.EXTRA_TEA_NAME";
@@ -55,25 +52,27 @@ public class OrderActivity extends AppCompatActivity {
     public final static String EXTRA_SUGAR_TYPE = "com.example.android.teatime.EXTRA_SUGAR_TYPE";
     public final static String EXTRA_QUANTITY = "com.example.android.teatime.EXTRA_QUANTITY";
 
+    private ActivityOrderBinding binding;
+
+    private Locale mLocale;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_order);
-        Toolbar menuToolbar = (Toolbar) findViewById(R.id.order_toolbar);
-        setSupportActionBar(menuToolbar);
-        getSupportActionBar().setTitle(getString(R.string.order_title));
+        binding = ActivityOrderBinding.inflate(getLayoutInflater());
+        mLocale = getResources().getConfiguration().getLocales().get(0);
+        setContentView(binding.getRoot());
+        setSupportActionBar(binding.orderToolbar);
+        if (getSupportActionBar() != null) getSupportActionBar().setTitle(getString(R.string.order_title));
 
         // Set header name and image depending on which item was clicked in the gridView
         Intent intent = getIntent();
         mTeaName = intent.getStringExtra(MenuActivity.EXTRA_TEA_NAME);
 
-        TextView teaNameTextView = (TextView) findViewById(R.id.tea_name_text_view);
-        teaNameTextView.setText(mTeaName);
+        binding.teaNameTextView.setText(mTeaName);
 
         // Set cost default to $0.00
-        TextView costTextView = (TextView) findViewById(
-                R.id.cost_text_view);
-        costTextView.setText(getString(R.string.initial_cost));
+        binding.costTextView.setText(getString(R.string.initial_cost));
 
         setupSizeSpinner();
         setupMilkSpinner();
@@ -85,8 +84,6 @@ public class OrderActivity extends AppCompatActivity {
      */
     private void setupSizeSpinner() {
 
-        Spinner mSizeSpinner = (Spinner) findViewById(R.id.tea_size_spinner);
-
         // Create an ArrayAdapter using the string array and a default mSizeSpinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.tea_size_array, android.R.layout.simple_spinner_item);
@@ -95,10 +92,10 @@ public class OrderActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         // Apply the adapter to the mSizeSpinner
-        mSizeSpinner.setAdapter(adapter);
+        binding.teaSizeSpinner.setAdapter(adapter);
 
         // Set the integer mSelected to the constant values
-        mSizeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        binding.teaSizeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
@@ -130,8 +127,6 @@ public class OrderActivity extends AppCompatActivity {
      */
     private void setupMilkSpinner() {
 
-        Spinner mSizeSpinner = (Spinner) findViewById(R.id.milk_spinner);
-
         // Create an ArrayAdapter using the string array and a default mSizeSpinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.milk_array, android.R.layout.simple_spinner_item);
@@ -139,10 +134,10 @@ public class OrderActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         // Apply the adapter to the mSizeSpinner
-        mSizeSpinner.setAdapter(adapter);
+        binding.milkSpinner.setAdapter(adapter);
 
         // Set the integer mSelected to the constant values
-        mSizeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        binding.milkSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
@@ -180,8 +175,6 @@ public class OrderActivity extends AppCompatActivity {
      */
     private void setupSugarSpinner() {
 
-        Spinner mSizeSpinner = (Spinner) findViewById(R.id.sugar_spinner);
-
         // Create an ArrayAdapter using the string array and a default mSizeSpinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.sugar_array, android.R.layout.simple_spinner_item);
@@ -190,10 +183,10 @@ public class OrderActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         // Apply the adapter to the mSizeSpinner
-        mSizeSpinner.setAdapter(adapter);
+        binding.sugarSpinner.setAdapter(adapter);
 
         // Set the integer mSelected to the constant values
-        mSizeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        binding.sugarSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
@@ -228,9 +221,7 @@ public class OrderActivity extends AppCompatActivity {
      * Increments the quantity and recalculates the price
      */
     public void increment(View view) {
-
-        mQuantity = mQuantity + 1;
-        displayQuantity(mQuantity);
+        displayQuantity(++mQuantity);
         mTotalPrice = calculatePrice();
         displayCost(mTotalPrice);
     }
@@ -240,9 +231,7 @@ public class OrderActivity extends AppCompatActivity {
      */
     public void decrement(View view) {
         if (mQuantity > 0) {
-
-            mQuantity = mQuantity - 1;
-            displayQuantity(mQuantity);
+            displayQuantity(--mQuantity);
             mTotalPrice = calculatePrice();
             displayCost(mTotalPrice);
         }
@@ -276,16 +265,12 @@ public class OrderActivity extends AppCompatActivity {
      * calculates and displays the cost
      */
     private void displayQuantity(int numberOfTeas) {
-        TextView quantityTextView = (TextView) findViewById(R.id.quantity_text_view);
-        quantityTextView.setText(String.valueOf(numberOfTeas));
+        binding.quantityTextView.setText(String.valueOf(numberOfTeas));
     }
 
     private void displayCost(int totalPrice) {
-        TextView costTextView = (TextView) findViewById(
-                R.id.cost_text_view);
-
-        String convertPrice = NumberFormat.getCurrencyInstance().format(totalPrice);
-        costTextView.setText(convertPrice);
+        String convertPrice = NumberFormat.getCurrencyInstance(mLocale).format(totalPrice);
+        binding.costTextView.setText(convertPrice);
     }
 
     /**
