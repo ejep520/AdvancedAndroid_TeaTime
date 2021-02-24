@@ -24,7 +24,8 @@
     <ImageView
         android:id="@+id/image"
         android:layout_width="175dp"
-        android:layout_height="175dp"/>
+        android:layout_height="175dp"
+        android:contentDescription="@string/grid_view_unset_content_description"/>
 
     <TextView
         android:id="@+id/tea_grid_name"

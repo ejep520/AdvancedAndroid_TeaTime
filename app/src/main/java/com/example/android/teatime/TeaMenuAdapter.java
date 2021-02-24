@@ -30,6 +30,7 @@ import androidx.annotation.LayoutRes;
 import com.example.android.teatime.model.Tea;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 /**
  * TeaMenuAdapter is backed by an ArrayList of {@link Tea} objects which populate
@@ -38,16 +39,19 @@ import java.util.ArrayList;
 
 public class TeaMenuAdapter extends ArrayAdapter<Tea> {
 
+
     @LayoutRes
     private final int layoutResourceId;
+    private final Locale mLocale;
     private final Context mContext;
-    private ArrayList<Tea> data;
+    private final ArrayList<Tea> data;
 
-    public TeaMenuAdapter(Context context, @LayoutRes int layoutResourceId, ArrayList data) {
+    public TeaMenuAdapter(Context context, @LayoutRes int layoutResourceId, ArrayList<Tea> data) {
         super(context, layoutResourceId, data);
         this.layoutResourceId = layoutResourceId;
         this.mContext = context;
         this.data = data;
+        this.mLocale = context.getResources().getConfiguration().getLocales().get(0);
     }
 
     static class ViewHolder {
@@ -59,7 +63,7 @@ public class TeaMenuAdapter extends ArrayAdapter<Tea> {
     // Create a new ImageView for each item referenced by the Adapter
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        ViewHolder holder = null;
+        ViewHolder holder;
         Tea currentTea = getItem(position);
 
         if (convertView == null) {
@@ -71,11 +75,15 @@ public class TeaMenuAdapter extends ArrayAdapter<Tea> {
             holder.image = convertView.findViewById(R.id.image);
             convertView.setTag(holder);
         } else {
-            holder = (ViewHolder) convertView.getTag();;
+            holder = (ViewHolder) convertView.getTag();
         }
 
         holder.imageTitle.setText(currentTea.getTeaName());
         holder.image.setImageResource(currentTea.getImageResourceId());
+        holder.image.setContentDescription(String.format(
+                mLocale,
+                mContext.getString(R.string.grid_view_content_description),
+                currentTea.getTeaName()));
         return convertView;
     }
 }

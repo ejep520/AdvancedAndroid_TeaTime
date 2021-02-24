@@ -8,7 +8,7 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.-->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">TeaTime</string>
 
     <!--Activity Toolbar Titles-->
@@ -43,8 +43,8 @@
     <string name="milk_type_2_percent">2% Milk</string>
     <string name="milk_type_whole">Whole Milk</string>
     <string name="sweet_type_0">0% - Not Sweet</string>
-    <string name="sweet_type_25">25% - Slightly Sweet</string>
-    <string name="sweet_type_50">50% - Half Sweet</string>
+    <string name="sweet_type_25" tools:ignore="StringFormatInvalid">25% - Slightly Sweet</string>
+    <string name="sweet_type_50" tools:ignore="StringFormatInvalid">50% - Half Sweet</string>
     <string name="sweet_type_75">75% - Moderately Sweet</string>
     <string name="sweet_type_100">100% - Full Sweetness</string>
 
@@ -69,8 +69,15 @@
 
     <!--Loading message-->
     <string name="done_msg">Your tea is ready!</string>
+    <string name="loading_msg">Loading images</string>
 
     <!--Button texts -->
     <string name="increment_button">+</string>
     <string name="decrement_button">-</string>
+
+    <!--ImageView ContentDescription strings -->
+    <string name="grid_view_content_description">Image of %s</string>
+    <string name="grid_view_unset_content_description">Image of this beverage</string>
+
+
 </resources>
